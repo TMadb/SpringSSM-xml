@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/aop 
+        http://www.springframework.org/schema/aop/spring-aop.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd">
+  
+  
+  <!-- 配置dataSource(数据源) -->
+  <bean id="datasource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+   <!-- 配置数据库的四大连接参数 -->
+   <property name="driverClass" value="${jdbc.driver}"></property>
+   <property name="jdbcUrl" value="${jdbc.url}"></property> 
+   <property name="user" value="${jdbc.username}"></property>
+   <property name="password" value="${jdbc.password}"></property>
+  </bean>
+  
+  
+   <!-- 指定数据库配置文件的路径 -->
+   <context:property-placeholder location="classpath:mysql.properties" />
+          
+</beans>

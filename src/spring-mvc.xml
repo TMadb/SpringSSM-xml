@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<!-- 配置HandlerMapping处理器映射器 -->
+	<!-- BeanNameHandlerMapping(默认使用)(不推荐使用)
+	     每次配置一个Controller都需要重新配置一个Bean，容器会重复创建Bean
+	 -->
+	<!-- <bean class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping" /> -->
+	
+	
+	<!-- 属于InternalPathMethodNameResolver
+	     通常使用SimpleUrlHanderMapping
+	     可以使多个请求对应一个Controller
+	 -->
+<!-- 	 <bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping"> -->
+	    <!-- 配置请求 -->
+<!-- 	    <property name="urlMap"> -->
+<!-- 	      <map> -->
+	        <!-- 使用XXX.do访问 -->
+<!-- 	        <entry key="/course.do" value-ref="myOneController" /> -->
+	        <!-- <entry key="/http.do" value-ref="httpHandlerController" />
+	        <entry key="/ab.do" value-ref="abstractControllerTest" />
+	        <entry key="/multi/*.do" value-ref="multiActionController" /> -->
+<!-- 	      </map> -->
+<!-- 	    </property> -->
+<!-- 	 </bean> -->
+	 
+    <!-- 配置Controller -->
+    <bean id="/course.do" class="com.org.controller.MyOneController" >
+      <property name="courseService" ref="courseService" />
+    </bean>
+    
+    <!-- 原生的Servlet方法 -->
+    <!-- <bean id="httpHandlerController" class="com.org.httphandlercontroller.HttpHandlerController" /> -->
+    
+    <!-- AbstractController可以限定请求的方法 -->
+    <!-- <bean id="abstractControllerTest" class="com.org.abstractcontroller.AbstractControllerTest" > -->
+      <!-- SupportedMethods 框架反射机制默认将get/set后面的第一个字母小写-->
+      <!-- 当请求的方法不是指定的方法时出现405错误状态码，表示请求的方法不允许 -->
+      <!-- <property name="supportedMethods"  value="POST" />
+    </bean> -->
+    
+    <!-- MultiActionController配置 -->
+    <!-- <bean id="multiActionController" class="com.org.multiactioncontroller.MultiActionControllerTest"> -->
+      <!-- PropertiesMethodNameResolver配置需要引入配置的自定义路径 -->
+      <!-- <property name="methodNameResolver" ref="propertiesMethodNameResolver" /> -->
+    <!-- </bean> -->
+    
+    
+    <!-- MultiActionController配置之PropertiesMethodNameResolver配置
+         特点：可以自定义访问的路径 -->
+   <!--  <bean id="propertiesMethodNameResolver" class="org.springframework.web.servlet.mvc.multiaction.PropertiesMethodNameResolver">
+      配置自定义访问路径
+      <property name="mappings">
+       <props>
+        <prop key="/multi/one.do">testOne</prop>       
+        <prop key="/multi/two.do">testTwo</prop>       
+        <prop key="/multi/three.do">testThree</prop>       
+       </props>
+      </property>
+    </bean>  --> 
+     
+    <!-- 配置视图解析器
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" >
+       配置前缀
+      <property name="prefix" value="/"></property>
+       配置后缀
+      <property name="suffix" value=".jsp"></property>
+    </bean> -->
+    
+    <!-- 注解配置,配置自动扫包组件即可
+         特别简单，配置文件中只需要写一个自动扫包就可以了
+         然后在先在类上打@Controller注解，然后在每个要处理的方法上打上注解@RequestMapping即可
+     -->
+    <!-- <context:component-scan base-package="com.org.annotation" /> -->
+</beans>

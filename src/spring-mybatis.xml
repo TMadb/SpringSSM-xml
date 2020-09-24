@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/aop 
+        http://www.springframework.org/schema/aop/spring-aop.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+  <!-- 配置SqlSessionFactory，用于生产SqlSession
+       用于容器生成对象，所以需要放置MyBaytis的主配置文件路径
+   -->
+  <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean"> 
+    <!-- 配置MyBatis的主配置文件路径 -->
+    <property name="configLocation" value="classpath:mybatisconfig.xml" />
+    <!-- 配置连接数据库的四大参数 -->
+    <property name="dataSource" ref="datasource" />
+  </bean>
+  
+  
+   <!-- 配置自动扫描Dao下的包
+        扫描到以后让SqlSessionFactory自动创建对象
+        所以需要配置SqlSessionFacoty工厂的名称，指定由他来生产对象
+    -->
+    <bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+      <property name="basePackage" value="com.org.dao" />
+      <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
+    </bean>
+             
+</beans>

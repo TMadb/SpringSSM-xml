@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
+  <display-name>SpringSSM-xml</display-name>
+  <welcome-file-list>
+    <welcome-file>information.jsp</welcome-file>
+    <welcome-file>information.jsp</welcome-file>
+    <welcome-file>information.jsp</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+  </welcome-file-list>
+  
+  <!-- 配置中央调度器(DispatcherServlet)的全限定名 -->
+  <servlet>
+   <servlet-name>springMvc</servlet-name>
+   <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+   <!-- 配置SpringMVC主配置文件的路径 -->
+   <init-param>
+     <!-- 参数 -->
+      <param-name>contextConfigLocation</param-name>
+     <!-- 主配置文件的路径 -->
+      <param-value>classpath:spring-mvc.xml</param-value>
+   </init-param>
+   <!-- 配置启动参数，让Tomcat启动时就创建容器 -->
+   <load-on-startup>1</load-on-startup>
+  </servlet>
+  <!-- 配置访问路径 -->
+  <servlet-mapping>
+   <servlet-name>springMvc</servlet-name>
+   <!-- 路径的写法分为三种
+        *.do  本阶段使用，表示处理后缀为.do的请求
+        /*    不能使用，这样会导致静态和动态资源无法访问，
+              因为SpringMVC框架里面没有处理这样资源的处理器
+        /     restful风格的配置，可以使用，不过要多添加配置      
+    -->
+   <url-pattern>*.do</url-pattern>
+  </servlet-mapping>
+  
+  <!-- 编码拦截器 -->
+  <filter>
+   <filter-name>characterEncodingFilter</filter-name>
+   <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+     <!-- 设置编码的参数
+         encoding格式  UTF-8
+         forceEncoding强制编码格式，默认初始值为false，将之改为true
+     -->
+	  <init-param>	   
+	   <param-name>encoding</param-name>
+	   <param-value>UTF-8</param-value>
+	  </init-param>
+	  <init-param>
+	   <param-name>forceEncoding</param-name>
+	   <param-value>true</param-value>
+	  </init-param>
+  </filter>
+  
+  <!-- 配置监听器
+       使容器只创建一个servet
+   -->
+   <listener>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+   </listener>
+   
+   <!-- Application初始化参数，存放监听器创建的servlet -->
+   <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>classpath:spring-*.xml</param-value>
+   </context-param>
+   
+</web-app>
